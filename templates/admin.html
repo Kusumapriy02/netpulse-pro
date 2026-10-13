@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3"><h2 class="mb-0">Revenue dashboard</h2><a class="btn btn-teal btn-sm" href="/admin/export.csv">Export transactions (CSV)</a></div>
+<div class="row g-3 mb-3">
+<div class="col-md-3"><div class="stat">Total revenue<br><b id="s-rev">–</b></div></div>
+<div class="col-md-3"><div class="stat">Customers<br><b id="s-cust">–</b></div></div>
+<div class="col-md-3"><div class="stat">Payment recovery<br><b id="s-rec">–</b></div></div>
+<div class="col-md-3"><div class="stat">Expiring in 7 days<br><b id="s-near">–</b></div></div></div>
+<div class="row g-3">
+<div class="col-lg-8"><div class="panel"><h6>Monthly revenue</h6><canvas id="c1"></canvas></div></div>
+<div class="col-lg-4"><div class="panel"><h6>Subscribers by plan</h6><canvas id="c2"></canvas></div></div>
+<div class="col-lg-4"><div class="panel"><h6>Renewed vs lapsed payments</h6><canvas id="c3"></canvas></div></div></div>
+<div class="panel mt-3"><h6>Recent transactions</h6><table class="table table-sm mb-0">
+<thead><tr><th>Reference</th><th>Date</th><th>Customer</th><th>Plan</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+{% for t in recent %}<tr><td>{{t.ref}}</td><td>{{t.created_at}}</td><td>{{t.name}}</td><td>{{t.plan_name}}</td><td>₹{{t.amount}}</td>
+<td><span class="badge text-bg-{{'success' if t.status=='success' else 'danger'}}">{{t.status}}</span></td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+const J=u=>fetch(u).then(r=>r.json()), col=['#0F3443','#17B8A6','#F2A541'];
+J('/api/summary').then(d=>{s_rev=document.getElementById('s-rev').textContent='₹'+d.total_revenue.toLocaleString('en-IN');
+document.getElementById('s-cust').textContent=d.customers;document.getElementById('s-rec').textContent=d.recovery_rate+'%';
+document.getElementById('s-near').textContent=d.near_expiry;});
+J('/api/revenue_trend').then(d=>new Chart(c1,{type:'bar',data:{labels:d.labels,datasets:[{label:'Revenue (₹)',data:d.values,backgroundColor:'#17B8A6'}]},options:{plugins:{legend:{display:false}}}}));
+J('/api/plan_distribution').then(d=>new Chart(c2,{type:'doughnut',data:{labels:d.labels,datasets:[{data:d.values,backgroundColor:col}]}}));
+J('/api/renewal_rate').then(d=>new Chart(c3,{type:'pie',data:{labels:d.labels,datasets:[{data:d.values,backgroundColor:['#17B8A6','#D9534F']}]}}));
+</script>{% endblock %}

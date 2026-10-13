@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetPulse Admin · Sign in</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:"Segoe UI",system-ui,sans-serif;background:#0B1D26;color:#dcebe8;padding:2rem}
+.box{width:100%;max-width:400px;background:#10303d;border:1px solid #1d4a5b;border-radius:14px;padding:2.25rem;box-shadow:0 20px 50px #0008}
+.mark{width:44px;height:44px;border-radius:10px;background:#17B8A6;color:#06232a;font-weight:800;display:grid;place-items:center;margin-bottom:1rem}
+h2{margin:0 0 .25rem;color:#fff}.sub{margin:0 0 1rem;color:#8fb0aa;font-size:.95rem}
+label{display:block;font-weight:600;margin:1rem 0 .35rem;font-size:.9rem}input{width:100%;padding:.75rem .85rem;border:1px solid #2b6275;border-radius:8px;font-size:1rem;background:#0B1D26;color:#fff}
+input:focus{outline:3px solid #17B8A655;border-color:#17B8A6}
+button{width:100%;margin-top:1.5rem;padding:.8rem;border:0;border-radius:8px;background:#17B8A6;color:#06232a;font-size:1rem;font-weight:700;cursor:pointer}
+button:hover{background:#3fd2c1}.msg{padding:.65rem .9rem;border-radius:8px;margin:.75rem 0}.danger{background:#4a1f26;color:#ffb4bd}.warning{background:#4a3d12;color:#ffe08a}.success{background:#164533;color:#9be8c4}
+.demo{margin-top:1.25rem;font-size:.85rem;color:#8fb0aa}a{color:#7fe0d3}code{color:#fff}
+</style></head><body>
+<form class="box" method="post">
+<div class="mark">NP</div><h2>Administrator access</h2><p class="sub">Restricted area. Revenue and reporting.</p>
+{% with m = get_flashed_messages(with_categories=true) %}{% for c,t in m %}<div class="msg {{c}}">{{t}}</div>{% endfor %}{% endwith %}
+<label for="u">Admin username</label><input id="u" name="username" required autofocus autocomplete="username">
+<label for="p">Password</label><input id="p" name="password" type="password" required autocomplete="current-password">
+<button>Sign in to admin</button>
+<p class="demo">Demo: <code>{{hint[0]}}</code> / <code>{{hint[1]}}</code></p><p class="demo"><a href="/">Back to all panels</a></p>
+</form></body></html>

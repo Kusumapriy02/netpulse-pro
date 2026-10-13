@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetPulse</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root{--deep:#0F3443;--teal:#17B8A6;--mist:#EEF5F4}
+body{background:var(--mist);color:#12262e}
+.navbar{background:var(--deep)}.navbar .nav-link,.navbar-brand{color:#fff!important}
+.navbar .nav-link:hover{color:var(--teal)!important}
+.btn-teal{background:var(--teal);border-color:var(--teal);color:#06232a;font-weight:600}
+.btn-teal:hover{background:#12a08f;color:#fff}
+.login{max-width:420px;margin:3rem auto}.stat{background:#fff;border-left:5px solid var(--teal);border-radius:6px;padding:1rem 1.25rem}
+.stat b{font-size:1.9rem;color:var(--deep)}
+.panel{background:#fff;border-radius:6px;padding:1.25rem}
+.hub a{text-decoration:none;color:inherit}.hub .panel{height:100%;border-top:5px solid var(--teal)}
+.hub .panel:hover{background:var(--deep);color:#fff}
+</style></head><body>
+<nav class="navbar navbar-expand"><div class="container">
+<a class="navbar-brand fw-bold" href="/">NetPulse</a>
+<div class="navbar-nav ms-auto align-items-center">
+{% if session.role %}<span class="text-white-50 me-3">{{session.name}} ({{session.role}})</span>
+<form method="post" action="/logout" class="m-0"><button class="btn btn-sm btn-outline-light">Sign out</button></form>
+{% endif %}</div></div></nav>
+<main class="container py-4">
+{% with msgs = get_flashed_messages(with_categories=true) %}{% for c,m in msgs %}
+<div class="alert alert-{{c}}">{{m}}</div>{% endfor %}{% endwith %}
+{% block content %}{% endblock %}
+</main>
+{% block scripts %}{% endblock %}
+</body></html>

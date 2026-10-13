@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+<div class="panel login">
+<h3 class="mb-3">{{role|capitalize}} sign in</h3>
+<form method="post">
+<label class="form-label">{{'Connection ID' if role=='customer' else 'Username'}}</label>
+<input name="username" class="form-control mb-3" required autofocus autocomplete="username">
+<label class="form-label">Password</label>
+<input name="password" type="password" class="form-control mb-3" required autocomplete="current-password">
+<button class="btn btn-teal w-100">Sign in</button></form>
+<p class="small text-muted mt-3 mb-0">Demo account: <code>{{hint[0]}}</code> / <code>{{hint[1]}}</code></p>
+<p class="small mt-2 mb-0"><a href="/">Back to all panels</a></p></div>{% endblock %}

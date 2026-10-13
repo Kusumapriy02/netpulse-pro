@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetPulse · Create account</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:"Segoe UI",system-ui,sans-serif;background:#F6FBFA;color:#0F3443}
+form{width:100%;max-width:420px;background:#fff;border-top:5px solid #17B8A6;border-radius:10px;padding:2rem;box-shadow:0 8px 30px #0f34431a}
+h2{margin:0 0 .25rem}.sub{color:#5b7580;margin:0 0 1rem}label{display:block;font-weight:600;margin:1rem 0 .35rem}
+input,select{width:100%;padding:.7rem .85rem;border:1.5px solid #bcd5d1;border-radius:8px;font-size:1rem;background:#fff}
+input:focus,select:focus{outline:3px solid #17B8A655;border-color:#17B8A6}
+button{width:100%;margin-top:1.5rem;padding:.85rem;border:0;border-radius:8px;background:#17B8A6;color:#06232a;font-size:1rem;font-weight:700;cursor:pointer}
+button:hover{background:#12a08f;color:#fff}.msg{padding:.7rem 1rem;border-radius:8px;margin:.75rem 0}.danger{background:#fde8e8;color:#9b1c1c}
+.small{margin-top:1rem;font-size:.9rem;color:#5b7580}a{color:#0F3443}
+</style></head><body>
+<form method="post">
+<h2>Create your account</h2><p class="sub">Get a connection ID and manage your broadband online.</p>
+{% with m = get_flashed_messages(with_categories=true) %}{% for c,t in m %}<div class="msg {{c}}">{{t}}</div>{% endfor %}{% endwith %}
+<label for="n">Full name</label><input id="n" name="name" value="{{form.get('name','')}}" required autofocus>
+<label for="ph">Phone number (10 digits)</label><input id="ph" name="phone" inputmode="numeric" value="{{form.get('phone','')}}" required>
+<label for="pl">Plan</label><select id="pl" name="plan_id">
+{% for p in plans %}<option value="{{p.id}}" {{'selected' if form.get('plan_id','')|string==p.id|string}}>{{p.name}} · {{p.speed}} · ₹{{p.price}} / {{p.validity_days}} days</option>{% endfor %}</select>
+<label for="pw">Password (6+ characters)</label><input id="pw" name="password" type="password" required autocomplete="new-password">
+<label for="cf">Confirm password</label><input id="cf" name="confirm" type="password" required autocomplete="new-password">
+<button>Create account</button>
+<p class="small">Already registered? <a href="/customer/login">Sign in</a></p>
+</form></body></html>
